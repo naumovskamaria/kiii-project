@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-deployment
+  template:
+    metadata:
+      labels:
+        app: backend-deployment
+    spec:
+      containers:
+        - name: backend-deployment
+          image: marinau/backend:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: "mysql"
+            - name: DB_DATABASE
+              value: "reminders_db"
+            - name: DB_USERNAME
+              value: "root"
+            - name: DB_PASSWORD
+              value: ""
+          volumeMounts:
+            - name: config-volume
+              mountPath: /var/www/backend
+      volumes:
+        - name: config-volume
+          configMap:
+            name: backend-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf

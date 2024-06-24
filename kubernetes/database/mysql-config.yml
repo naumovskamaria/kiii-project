@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: project
+data:
+  MYSQL_INITDB_DATABASE: "reminders_db"
